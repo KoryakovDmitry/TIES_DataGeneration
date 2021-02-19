@@ -8,6 +8,8 @@ import cv2
 import os
 import string
 import pickle
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from multiprocessing import Process,Lock
 from TableGeneration.Table import Table
 from multiprocessing import Process,Pool,cpu_count
@@ -257,7 +259,11 @@ class GenerateTFRecord:
         opts.set_headless()
         assert opts.headless
         #driver=PhantomJS()
-        driver = Firefox(options=opts)
+        driver = Firefox(firefox_binary="/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+                         firefox_profile="/Users/dmitry/Library/Application Support/Firefox/Profiles/d2nfi77v.default",
+                         executable_path="/Users/dmitry/Initflow/TIES/TIES_DataGeneration/geckodriver",
+                         options=opts)
+
 
         while(True):
             starttime = time.time()
