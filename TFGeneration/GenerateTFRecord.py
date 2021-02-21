@@ -259,9 +259,9 @@ class GenerateTFRecord:
         opts.set_headless()
         assert opts.headless
         #driver=PhantomJS()
-        driver = Firefox(firefox_binary="/Applications/Firefox.app/Contents/MacOS/firefox-bin",
-                         firefox_profile="/Users/dmitry/Library/Application Support/Firefox/Profiles/d2nfi77v.default",
-                         executable_path="/Users/dmitry/Initflow/TIES/TIES_DataGeneration/geckodriver",
+        driver = Firefox(firefox_binary="/usr/bin/firefox",
+                         # firefox_profile="/Users/dmitry/Library/Application Support/Firefox/Profiles/d2nfi77v.default",
+                         executable_path="/content/drive/MyDrive/Table Recognition/TIES/geckodriver",
                          options=opts)
 
 

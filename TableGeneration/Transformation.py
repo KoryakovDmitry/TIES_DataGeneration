@@ -13,7 +13,7 @@ def find_new_points(matrix,x,y):
 def resize_image(img,offsets,size):
     newimg = Image.new('RGBA',
                      (int(size[0]), int(size[1])),  # A4 at 72dpi
-                     (255, 255, 255,255))  # White
+                     (255, 255, 255, 255))  # White
     newimg.paste(img, offsets)  # Not centered, top-left corner
     return newimg
 
@@ -82,7 +82,7 @@ def Transform(img,bboxes,shearval,rotval,max_width,max_height):
     min_pts=np.concatenate((min_pts,ones),axis=1)
     max_pts=np.concatenate((max_pts,ones),axis=1)
 
-    min_pts=np.dot(min_pts,points_transformation.params.T)[:,:2]
+    min_pts=np.dot(min_pts, points_transformation.params.T)[:,:2]
     max_pts = np.dot(max_pts, points_transformation.params.T)[:,:2]
 
     transformed_bboxes=np.concatenate((min_pts,max_pts),axis=1)
