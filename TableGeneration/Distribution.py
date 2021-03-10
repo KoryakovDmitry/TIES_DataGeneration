@@ -128,6 +128,11 @@ class Distribution:
         return im,combined_counter
 
     def table_rectangle(self,root, im):
+
+        """
+            need to image with grid and
+        """
+
         height, width, _ = im.shape
         table_coords = []
         colors=[(255,0,0),(0,255,0)]
@@ -155,4 +160,4 @@ class Distribution:
             counter['column']+=1
             combined_counter.append(counter)
 
-        return im, table_coords,combined_counter
+        return im, table_coords, combined_counter
