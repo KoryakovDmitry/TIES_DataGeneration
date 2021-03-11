@@ -191,9 +191,33 @@ class GenerateTFRecord:
                 colmatrix = np.eye(l, dtype=np.int64)
                 cellmatrix = np.eye(l, dtype=np.int64)
                 rowmatrix = np.eye(l, dtype=np.int64)
-                for c in data:
-                    colmatrix[c['col_start']:c['col_end'] + 1, c['col_start']:c['col_end'] + 1] = 1
-                    rowmatrix[c['row_start']:c['row_end'] + 1, c['row_start']:c['row_end'] + 1] = 1
+
+                cells = np.array([[cell['col_start'], cell['col_end'], cell['row_start'], cell['row_end']] for cell in data])
+
+                check_ad_cells = lambda b, b_ad: True if (b == b_ad).all() else False
+                check_ad_row = lambda b, b_ad: True if (b['row_start'] == b_ad['row_start']) or (
+                        b['row_end'] == b_ad['row_end']) or (b['row_start'] == b_ad['row_end']) else False
+                check_ad_col = lambda b, b_ad: True if (b['col_start'] == b_ad['col_start']) or (
+                        b['col_end'] == b_ad['col_end']) or (b['col_start'] == b_ad['col_end']) else False
+                
+                rows = {n_b: [n_b_ad for n_b_ad, b_ad in enumerate(data) if check_ad_row(b, b_ad)] for n_b, b in
+                            enumerate(data)}
+                cols = {n_b: [n_b_ad for n_b_ad, b_ad in enumerate(data) if check_ad_col(b, b_ad)] for n_b, b in
+                            enumerate(data)}
+                cells_ad = {n_b: [n_b_ad for n_b_ad, b_ad in enumerate(cells) if check_ad_cells(b, b_ad)] for n_b, b in
+                            enumerate(cells)}
+
+                for r in rows:
+                    rowmatrix[r, rows[r]] = 1
+                    rowmatrix[rows[r], r] = 1
+
+                for c_a in cells_ad:
+                    cellmatrix[c_a, cells_ad[c_a]] = 1
+                    cellmatrix[cells_ad[c_a], c_a] = 1
+
+                for c in cols:
+                    colmatrix[c, cols[c]] = 1
+                    colmatrix[cols[c], c] = 1
 
                 bboxes = np.array([[str(len(i['text'])), str(i['text']), str(i['bbox'][0]), str(i['bbox'][1]),
                                     str(i['bbox'][2]), str(i['bbox'][3])] for i in data])
